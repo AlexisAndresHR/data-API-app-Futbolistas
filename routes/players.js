@@ -8,13 +8,19 @@ module.exports = function playersHandler(players) {
             if (typeof data.index !== "undefined") {
                 console.log("Handler players", { data });
                 if (players[data.index]) {
+                    // If founds the data index, returns the specific index register
                     return callback(200, players[data.index]);
                 }
                 return callback(404, {
-                    message: `The player # ${data.index} doesn't exists`,
+                    message: `The player # ${data.index} doesn't exists`,// Returns error message if doesn't find the index
                 });
             }
-            callback(200, players);
+            callback(200, players);// Returns all the data registers (Players)
+        },
+        // Players method POST
+        post: (data, callback) => {
+            players.push(data.payload);// Adds the new Player register
+            callback(201, data.payload);// Returns the 201 response code with the inserted register to the client
         },
     };
 

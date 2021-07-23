@@ -27,7 +27,8 @@ module.exports = (req, res) => {
     const { urlParameters = {} } = parsedUrl;
 
     // Obtains the URL headers (detailed info)
-    const { urlHeaders = {} } = req;
+    //const { urlHeaders = {} } = req;
+    const urlHeaders = req.headers;// Object variable that contains the HTTP headers of the request
 
     // If exists, obtains the payload stream (to special actions in the data API)
     const decoder = new stringDecoder("utf-8");
