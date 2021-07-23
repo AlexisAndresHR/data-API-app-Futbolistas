@@ -7,7 +7,7 @@ const server = http.createServer(requestHandler);// Creates the server giving th
 
 // Enables the server to listen requests in the local port 5000 (temporarily)
 server.listen(5000, () => {
-  console.log(
-    "Server is enabled on http://localhost:5000/"
-  );
+    console.log(
+        "Server is enabled on http://localhost:5000/"
+    );
 });
