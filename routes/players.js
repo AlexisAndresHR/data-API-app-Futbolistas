@@ -30,7 +30,25 @@ module.exports = function playersHandler(players) {
                     return callback(200, players[data.index]);// Returns the success response, register updated
                 }
                 return callback(404, {
-                  message: `The player # ${data.index} doesn't exists`,// Returns error message if doesn't find the index
+                    message: `The player # ${data.index} doesn't exists`,// Returns error message if doesn't find the index
+                });
+            }
+            callback(400, { message: "Index not-set" });// Shows a error message for index parameter not-set
+        },
+        // Players method DELETE
+        delete: (data, callback) => {
+            if (typeof data.index !== "undefined") {
+                if (players[data.index]) {
+                    // array.filter process to "regenerate" the data array without the element with index n
+                    players = players.filter(
+                        (_player, num) => num != data.index
+                    );
+                    return callback(204, {
+                        message: `Player ID ${data.index} has been deleted`,// Returns a success response, register deleted
+                    });
+                }
+                return callback(404, {
+                    message: `The player # ${data.index} doesn't exists`,// Returns error message if doesn't find the index
                 });
             }
             callback(400, { message: "Index not-set" });// Shows a error message for index parameter not-set
