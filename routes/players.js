@@ -22,6 +22,19 @@ module.exports = function playersHandler(players) {
             players.push(data.payload);// Adds the new Player register
             callback(201, data.payload);// Returns the 201 response code with the inserted register to the client
         },
+        // Players method PUT (update/modify)
+        put: (data, callback) => {
+            if (typeof data.index !== "undefined") {
+                if (players[data.index]) {
+                    players[data.index] = data.payload;// Puts the new payload (register) in the index position (update)
+                    return callback(200, players[data.index]);// Returns the success response, register updated
+                }
+                return callback(404, {
+                  message: `The player # ${data.index} doesn't exists`,// Returns error message if doesn't find the index
+                });
+            }
+            callback(400, { message: "Index not-set" });// Shows a error message for index parameter not-set
+        },
     };
 
 };
