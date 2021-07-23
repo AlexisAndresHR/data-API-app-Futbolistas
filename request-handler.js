@@ -3,6 +3,7 @@
  */
 const url = require('url');// Using Node JS 'url' module
 const stringDecoder = require('string_decoder').StringDecoder;// To use the 'string_decoder' module
+const serverRouter = require('./server_router');// Require/import for the router file
 
 /**
  * Arrow function for the request processing
@@ -59,6 +60,26 @@ module.exports = (req, res) => {
         };
 
         console.log({ data });
+
+        // Selects the handler depending on the URL route, to assign it a function/route (server_router file)
+        let handler;
+        if (data.route && serverRouter[data.route] && serverRouter[data.route][requestMethod]) {
+            handler = serverRouter[data.route][requestMethod];
+        } else {
+            handler = serverRouter.notFound;
+        }
+        console.log("handler", handler);
+
+        // Executes the handler to give the response to the web navigator (according to the route)
+        if (typeof handler === "function") {
+            handler(data, (statusCode = 200, message) => {
+                const response = JSON.stringify(message);
+                res.setHeader("Content-Type", "application/json");// Defines the content type (JSON) for the API response
+                res.writeHead(statusCode);
+                // Line where the response is sent to the client app
+                res.end(response);
+            });
+        }
 
     });
 
